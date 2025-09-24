@@ -59,98 +59,74 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Cuenta - <?php echo htmlspecialchars($username); ?></title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .accommodation-card {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-        }
-        .accommodation-card img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-right: 15px;
-            border-radius: 4px;
-        }
-        .accommodation-card h3 {
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
-        .accommodation-card p {
-            margin-bottom: 5px;
-        }
-        .logout-btn {
-            background-color: #dc3545;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-    </style>
+ 
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid my-5 w-75 p-4 rounded shadow alojamientos-bg">
         <h1>Bienvenido a tu cuenta, <?php echo htmlspecialchars($username); ?>!</h1>
         <p>Tu rol: <?php echo htmlspecialchars($role); ?></p>
         <p><a href="../auth/logout.php" class="logout-btn">Cerrar Sesión</a></p>
 
-        <h2>Mis Alojamientos Seleccionados</h2>
+        <h2 class="pb-4">Mis Alojamientos Seleccionados</h2>
         <?php if (empty($selected_accommodations)): ?>
             <p>Aún no has seleccionado ningún alojamiento.</p>
         <?php else: ?>
-            <div class="accommodations-grid">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
                 <?php foreach ($selected_accommodations as $accommodation): ?>
-                    <div class="accommodation-card">
-                        <?php if ($accommodation['imagen_url']): ?>
-                            <img src="<?php echo htmlspecialchars($accommodation['imagen_url']); ?>" alt="<?php echo htmlspecialchars($accommodation['nombre']); ?>">
-                        <?php else: ?>
+                    <div class="col">
+                        <div class="card h-100">
+                             <?php if ($accommodation['imagen_url']): ?>
+                                <img src="<?php echo htmlspecialchars($accommodation['imagen_url']); ?>" alt="<?php echo htmlspecialchars($accommodation['nombre']); ?>">
+                            <?php else: ?>
                             <img src="https://via.placeholder.com/100" alt="Sin imagen">
                         <?php endif; ?>
-                        <div>
-                            <h3><?php echo htmlspecialchars($accommodation['nombre']); ?></h3>
+                        <div class="card-body text-start">
+                            <h5><?php echo htmlspecialchars($accommodation['nombre']); ?></h5>
                             <p>Ubicación: <?php echo htmlspecialchars($accommodation['ubicacion']); ?></p>
                             <p>Precio/noche: $<?php echo htmlspecialchars(number_format($accommodation['precio_por_noche'], 2)); ?></p>
                             <form action="remove_accommodation.php" method="POST" style="display:inline;">
                                 <input type="hidden" name="accommodation_id" value="<?php echo $accommodation['id_alojamiento']; ?>">
-                                <button type="submit" class="logout-btn">Eliminar de mi cuenta</button>
+                                <button type="submit" class="logout-btn ">Eliminar de mi cuenta</button>
                             </form>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
-        <h2>Alojamientos Disponibles para Seleccionar</h2>
+        <h2 class="pt-4">Alojamientos Disponibles para Seleccionar</h2>
         <?php if (empty($available_accommodations)): ?>
             <p>No hay más alojamientos disponibles para añadir o ya los has seleccionado todos.</p>
         <?php else: ?>
-            <div class="accommodations-grid">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
                 <?php foreach ($available_accommodations as $accommodation): ?>
-                    <div class="accommodation-card">
-                        <?php if ($accommodation['imagen_url']): ?>
+                    <div class="col">
+                         <div class="card h-100">
+                            <?php if ($accommodation['imagen_url']): ?>
                             <img src="<?php echo htmlspecialchars($accommodation['imagen_url']); ?>" alt="<?php echo htmlspecialchars($accommodation['nombre']); ?>">
                         <?php else: ?>
                             <img src="https://via.placeholder.com/100" alt="Sin imagen">
                         <?php endif; ?>
-                        <div>
-                            <h3><?php echo htmlspecialchars($accommodation['nombre']); ?></h3>
-                            <p>Ubicación: <?php echo htmlspecialchars($accommodation['ubicacion']); ?></p>
-                            <p>Precio/noche: $<?php echo htmlspecialchars(number_format($accommodation['precio_por_noche'], 2)); ?></p>
-                            <form action="add_accommodation.php" method="POST" style="display:inline;">
+                            <div class="card-body text-start">
+                                <h5><?php echo htmlspecialchars($accommodation['nombre']); ?></h5>
+                                <p>Ubicación: <?php echo htmlspecialchars($accommodation['ubicacion']); ?></p>
+                                <p>Precio/noche: $<?php echo htmlspecialchars(number_format($accommodation['precio_por_noche'], 2)); ?></p>
+                                <form action="add_accommodation.php" method="POST" style="display:inline;">
                                 <input type="hidden" name="accommodation_id" value="<?php echo $accommodation['id_alojamiento']; ?>">
                                 <button type="submit">Añadir a mi cuenta</button>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </div>
+        <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
