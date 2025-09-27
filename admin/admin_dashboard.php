@@ -8,6 +8,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 require_once '../includes/db.php';
+require_once '../includes/cloudinary.php';
 
 $message = '';
 
@@ -16,7 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $descripcion = $_POST['descripcion'];
     $ubicacion = $_POST['ubicacion'];
     $precio_por_noche = $_POST['precio_por_noche'];
-    $imagen_url = $_POST['imagen_url']; // O manejar subida de archivos
+    $imagen_url = null;
+if (!empty($_FILES['imagen']['tmp_name'])) {
+    $imagen_url = uploadToCloudinary(
+        $_FILES['imagen']['tmp_name'], 
+        'drx9c93c7',
+        'tlyizdgj'     
+    );
+}
+
 
     if (empty($nombre) || empty($descripcion) || empty($ubicacion) || empty($precio_por_noche)) {
         $message = '<p style="color: red;">Todos los campos son obligatorios, excepto la URL de la imagen.</p>';
@@ -62,7 +71,7 @@ try {
         <?php if ($message): ?>
             <?php echo $message; ?>
         <?php endif; ?>
-        <form action="admin_dashboard.php" method="POST">
+        <form action="admin_dashboard.php" method="POST" enctype="multipart/form-data" >
             <div>
                 <label for="nombre">Nombre del Alojamiento:</label>
                 <input type="text" id="nombre" name="nombre" required value="<?php echo htmlspecialchars($_POST['nombre'] ?? ''); ?>">
@@ -79,10 +88,11 @@ try {
                 <label for="precio_por_noche">Precio por Noche:</label>
                 <input type="number" id="precio_por_noche" name="precio_por_noche" step="0.01" required value="<?php echo htmlspecialchars($_POST['precio_por_noche'] ?? ''); ?>">
             </div>
-            <div>
-                <label for="imagen_url">URL de la Imagen (opcional):</label>
-                <input type="url" id="imagen_url" name="imagen_url" value="<?php echo htmlspecialchars($_POST['imagen_url'] ?? ''); ?>">
-            </div>
+          <div>
+    <label for="imagen">Imagen del Alojamiento:</label>
+    <input type="file" id="imagen" name="imagen" accept="image/*">
+</div>
+
             <button type="submit">Agregar Alojamiento</button>
         </form>
 
