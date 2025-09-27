@@ -81,7 +81,7 @@ try {
                              <?php if ($accommodation['imagen_url']): ?>
                                 <img src="<?php echo htmlspecialchars($accommodation['imagen_url']); ?>" alt="<?php echo htmlspecialchars($accommodation['nombre']); ?>">
                             <?php else: ?>
-                            <img src="https://via.placeholder.com/100" alt="Sin imagen">
+                            <img class="card-img-top" src="https://via.placeholder.com/100" alt="Sin imagen">
                         <?php endif; ?>
                         <div class="card-body text-start">
                             <h5><?php echo htmlspecialchars($accommodation['nombre']); ?></h5>
