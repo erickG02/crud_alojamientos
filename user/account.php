@@ -83,7 +83,7 @@ try {
                             <?php else: ?>
                             <img class="card-img-top" src="https://via.placeholder.com/100" alt="Sin imagen">
                         <?php endif; ?>
-                        <div class="card-body text-start">
+                        <div class="card-body text-center">
                             <h5><?php echo htmlspecialchars($accommodation['nombre']); ?></h5>
                             <p>Ubicación: <?php echo htmlspecialchars($accommodation['ubicacion']); ?></p>
                             <p>Precio/noche: $<?php echo htmlspecialchars(number_format($accommodation['precio_por_noche'], 2)); ?></p>
@@ -112,7 +112,7 @@ try {
                             <img src="https://via.placeholder.com/100" alt="Sin imagen">
                         <?php endif; ?>
                             <div class="card-body text-start">
-                                <h5><?php echo htmlspecialchars($accommodation['nombre']); ?></h5>
+                                <h5 class="text-center"><?php echo htmlspecialchars($accommodation['nombre']); ?></h5>
                                 <p>Ubicación: <?php echo htmlspecialchars($accommodation['ubicacion']); ?></p>
                                 <p>Precio/noche: $<?php echo htmlspecialchars(number_format($accommodation['precio_por_noche'], 2)); ?></p>
                                 <form action="add_accommodation.php" method="POST" style="display:inline;">
